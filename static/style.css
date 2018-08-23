@@ -1,0 +1,33 @@
+body {
+  background: #F4FAFD;
+  color: #5E7FB1;
+}
+
+.logo, .slogan {
+  color: #5E7FB1;
+}
+
+.g-button {
+  width: 100%;
+  background: #5E7FB1;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.g-button > a {
+  color: white;
+}
+.g-button > a:hover {
+  text-decoration: none;
+}
+
+p, h1, h2, h3, h4, h5, label, a, a:hover {
+	color: #5E7FB1;
+  font-family: 'Montserrat', sans-serif;
+}
