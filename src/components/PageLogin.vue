@@ -33,17 +33,19 @@ export default {
   },
   methods: {
     login() {
-        let data = {
-          email: this.input.email,
-          password: this.input.password
-        }
-        this.$store
-          .dispatch('login', data)
-          .then(() => alert("logged in"))
-          .catch(err => {
-            alert(err)
-            console.log(err)
-          })
+        // let data = {
+        //   email: this.input.email,
+        //   password: this.input.password
+        // }
+        // this.$store
+        //   .dispatch('login', data)
+        //   .then(() => alert("logged in"))
+        //   .catch(err => {
+        //     alert(err)
+        //     console.log(err)
+        //   })
+
+        this.$router.push({ path: 'stats'});
     }
   }
 }
