@@ -5,10 +5,6 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-import GSignInButton from 'vue-google-signin-button'
-import Checkbox from './components/utils/checkbox'
-import Slideout from 'vue-slideout'
-
 import Axios from 'axios'
 
 Vue.config.productionTip = true
@@ -16,12 +12,10 @@ Vue.config.productionTip = true
 Vue.prototype.$http = Axios;
 const token = localStorage.getItem('token')
 if (token) {
-  Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+  Vue.prototype.$http.defaults.headers.common['x-auth'] = token
 }
 
-Vue.use(GSignInButton)
-Vue.component('checkbox', Checkbox);
-Vue.component('Slideout', Slideout);
+Vue.use(require('vue-moment'));
 
 /* eslint-disable no-new */
 new Vue({

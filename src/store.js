@@ -4,11 +4,11 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-var SERVER = 'http://private-7e740-ffscerp.apiary-mock.com'
+var SERVER = 'http://ffsc.con-mot-sach.com'
 
 if(process.env.NODE_ENV == 'development')
 {
-  SERVER = 'http://private-7e740-ffscerp.apiary-mock.com'
+  SERVER = 'http://localhost:3000'
 }
 
 export default new Vuex.Store({
@@ -43,17 +43,10 @@ export default new Vuex.Store({
         .then(resp => {
           console.log('login result: ', resp);
 
-          if(resp.data.error) {
-            commit('auth_error')
-            localStorage.removeItem('token')
-            reject(resp.data.error_message)
-            return;
-          }
-
           const token = resp.data.token
           const user = resp.data.user
           localStorage.setItem('token', token)
-          axios.defaults.headers.common['Authorization'] = token
+          axios.defaults.headers.common['x-auth'] = token
           commit('auth_success', token, user)
           resolve(resp)
         })
@@ -68,7 +61,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit('logout')
         localStorage.removeItem('token')
-        delete axios.defaults.headers.common['Authorization']
+        delete axios.defaults.headers.common['x-auth']
         resolve()
       })
     }

@@ -4,24 +4,39 @@
 
     <div class="row">
       <div class="col-4"></div>
-      <div class="col-1">&#9668;</div>
-      <div class="col-2">{{month}} / {{year}}</div>
-      <div class="col-1">&#9658;</div>
+      <div class="col-1 btn" v-on:click="prevMonth()">&#9668;</div>
+      <div class="col-2">{{month}} / {{year}} - {{currentMonth}}</div>
+      <div class="col-1 btn" v-on:click="nextMonth()" v-if="this.month < this.currentMonth">&#9658;</div>
     </div>
 
-    <div v-for="center in centers" class="text-left">
-      <h4>{{center.name}}</h4>
+<!--     <div v-for="center in centers" class="text-left"> -->
+    <h4>{{center.name}}</h4>
+    <p v-if="showHint">Tháng {{month}} / {{year}} chưa có dữ liệu, vui lòng nhập</p>
 
+    <div>
+      <label>Số học sinh mới</label>
       <div>
-        Số học sinh mới: {{center.stats['number_of_new_students']}}
+        <p v-if="!isEditMode" v-on:click="isEditMode=true">{{center.stats['number_of_new_students']}}</p>
+        <input type="text" v-if="isEditMode" v-model="center.stats['number_of_new_students']"/>
       </div>
+     
+
+      <label>Số học bổng</label>
       <div>
-        Số học bổng: {{center.stats['number_of_scholarships']}}
+        <p v-if="!isEditMode"  v-on:click="isEditMode=true">{{center.stats['number_of_new_scholarships']}}</p>
+        <input type="text" v-if="isEditMode" v-model="center.stats['number_of_new_scholarships']"/>
       </div>
+      
+
+      <label>Số học sinh xuất sắc</label>
       <div>
-        Số học sinh xuất sắc: {{center.stats['number_of_excellent_students']}}
+        <p v-if="!isEditMode"  v-on:click="isEditMode=true">{{center.stats['number_of_excellent_students']}}</p>
+        <input type="text" v-if="isEditMode" v-model="center.stats['number_of_excellent_students']"/>
       </div>
+      
+      <button v-if="isEditMode" v-on:click="submit()">Lưu</button>
     </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -32,33 +47,67 @@ export default {
   name: 'PageStats',
   data () {
     return {
+      currentMonth: (new Date()).getMonth()+1, // the month's function will return month from 0-11, hence we need to add 1 to comply with our user interface
       month: 8,
       year: 2018,
-      centers: [
-        {
-          center_id: 1,
-          name: 'Bình Triệu',
-          stats: {
-            number_of_new_students: 10,
-            number_of_scholarships: 20,
-            number_of_excellent_students: 2
-          }
-        },
-
-        {
-          center_id: 2,
-          name: 'Bình An',
-          stats: {
-            number_of_new_students: 20,
-            number_of_scholarships: 30,
-            number_of_excellent_students: 4
-          }
-        }
-      ]
+      center_id: 1, // TODO: refactor
+      center: {},
+      isEditMode: false,
+      showHint: false
     }
   },
   methods: {
-    
+    loadData: async function() {
+      var data = (await StatService.getStatistic(this.center_id, this.year, this.month));
+
+
+      if(data.stats === undefined) {
+        this.isEditMode = true;
+        this.showHint = true;
+        this.center.stats = {};
+
+        // show error message
+      }
+      else
+      {
+        this.center = data;
+      }
+    },
+
+    nextMonth: function() {
+      if(this.month < 12) {
+        this.month = this.month + 1;  
+      }
+
+      if(this.month === 12) {
+        this.month = 1;
+        this.year = this.year + 1;
+      }
+
+      this.loadData();
+    },
+
+    prevMonth: function() {
+      if(this.month > 1) {
+        this.month = this.month - 1;
+      }
+      else {
+        this.month = 12;
+        this.year = this.year - 1;
+      }
+
+      this.loadData();
+    },
+
+    submit: function() {
+      StatService.submitStatistics(this.center_id, this.year, this.month, this.center.stats);
+      this.isEditMode = false;
+      this.showHint = false;
+    }
+  },
+
+  mounted: function() {
+    this.loadData();
   }
 }
 </script>
@@ -80,4 +129,5 @@ input {
 .g-button {
   margin-top: 30px;
 }
+
 </style>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-var SERVER = 'http://private-7e740-ffscerp.apiary-mock.com';
+var SERVER = 'http://localhost:3000';
 
 // if(process.env.NODE_ENV == 'development')
 // {
@@ -9,15 +9,36 @@ var SERVER = 'http://private-7e740-ffscerp.apiary-mock.com';
 
 export default {
 
-  getStatistic: function(year, month) {
-  	return new Promise(async function(resolve, reject) {
-  		var response = (await axios({url: SERVER + '/stats'+'?year='+year+'&month='+month, method: 'GET' }));
-      if(response.data.error)
-        alert(response.data.error_message);
+  getStatistic: function(center_id, year, month) {
+    // axios.defaults.headers.common['x-auth'] = 'meOuLuOuo2eGjdrOOzPtLrEgPvS2tfuA'
 
-		  resolve(response.data.data);
+  	return new Promise(async function(resolve, reject) {
+      try {
+  		  var response = (await axios({url: SERVER + '/stats/'+center_id+'/'+month+'/'+year, method: 'GET' }));
+        resolve(response.data);
+      }
+
+		  catch(err) {
+        resolve({});
+      }
   	});
   },
+
+  submitStatistics: function(center_id, year, month, stats) {
+    // axios.defaults.headers.common['x-auth'] = 'meOuLuOuo2eGjdrOOzPtLrEgPvS2tfuA';
+
+    return new Promise(async function(resolve, reject) {
+      var data = {
+        center_id,
+        year,
+        month, 
+        stats
+      };
+
+      var response = (await axios({url: SERVER + '/stats', method: 'PUT', data: data }));
+      resolve(response.data);
+    });
+  }
 
   // getVideo: function(video_id) {
   //   return new Promise(async function(resolve, reject) {
