@@ -15,8 +15,6 @@ if (token) {
   Vue.prototype.$http.defaults.headers.common['x-auth'] = token
 }
 
-Vue.use(require('vue-moment'));
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
