@@ -1,41 +1,7 @@
 <template>
   <div class="container">
-    <h1 class="logo">Thông tin thống kê</h1>
+    <h1 class="logo">Thông báo</h1>
 
-    <div class="row">
-      <div class="col-4"></div>
-      <div class="col-1 btn" v-on:click="prevMonth()">&#9668;</div>
-      <div class="col-2">{{month}} / {{year}}</div>
-      <div class="col-1 btn" v-on:click="nextMonth()" v-if="this.month < this.currentMonth">&#9658;</div>
-    </div>
-
-<!--     <div v-for="center in centers" class="text-left"> -->
-    <h4>{{center.name}}</h4>
-    <p v-if="showHint">Tháng {{month}} / {{year}} chưa có dữ liệu, vui lòng nhập</p>
-
-    <div>
-      <label>Số học sinh mới</label>
-      <div>
-        <p v-if="!isEditMode" v-on:click="isEditMode=true">{{center.stats['number_of_new_students']}}</p>
-        <input type="text" v-if="isEditMode" v-model="center.stats['number_of_new_students']"/>
-      </div>
-     
-
-      <label>Số học bổng</label>
-      <div>
-        <p v-if="!isEditMode"  v-on:click="isEditMode=true">{{center.stats['number_of_new_scholarships']}}</p>
-        <input type="text" v-if="isEditMode" v-model="center.stats['number_of_new_scholarships']"/>
-      </div>
-      
-
-      <label>Số học sinh xuất sắc</label>
-      <div>
-        <p v-if="!isEditMode"  v-on:click="isEditMode=true">{{center.stats['number_of_excellent_students']}}</p>
-        <input type="text" v-if="isEditMode" v-model="center.stats['number_of_excellent_students']"/>
-      </div>
-      
-      <button v-if="isEditMode" v-on:click="submit()">Lưu</button>
-    </div>
     <!-- </div> -->
   </div>
 </template>
@@ -44,7 +10,7 @@
 import StatService from '../services/stats';
 
 export default {
-  name: 'PageStats',
+  name: 'PageAnnouncement',
   data () {
     return {
       currentMonth: (new Date()).getMonth()+1, // the month's function will return month from 0-11, hence we need to add 1 to comply with our user interface

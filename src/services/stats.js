@@ -4,7 +4,7 @@ var SERVER = 'http://ffsc.con-mot-sach.com/api';
 
 if(process.env.NODE_ENV == 'development')
 {
-  SERVER = 'http://localhost:3000/'
+  SERVER = 'http://localhost:3000'
 }
 
 export default {
