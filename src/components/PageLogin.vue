@@ -39,7 +39,7 @@ export default {
         }
         this.$store
           .dispatch('login', data)
-          .then(() => this.$router.push({ path: 'stats'}))
+          .then(() => this.$router.push({ path: 'modules'}))
           .catch(err => {
             alert(err)
             console.log(err)
