@@ -1,11 +1,11 @@
 import axios from 'axios'
 
-var SERVER = 'http://localhost:3000';
+var SERVER = 'http://ffsc.con-mot-sach.com/api';
 
-// if(process.env.NODE_ENV == 'development')
-// {
-//   SERVER = 'http://localhost:3000/'
-// }
+if(process.env.NODE_ENV == 'development')
+{
+  SERVER = 'http://localhost:3000/'
+}
 
 export default {
 

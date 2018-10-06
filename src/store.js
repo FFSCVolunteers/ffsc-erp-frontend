@@ -4,7 +4,7 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-var SERVER = 'http://ffsc.con-mot-sach.com'
+var SERVER = 'http://ffsc.con-mot-sach.com/api'
 
 if(process.env.NODE_ENV == 'development')
 {
